@@ -3,13 +3,18 @@ package main
 import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+//	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+//	"github.com/ethereum/go-ethereum/crypto/sha3"
 //	"os"
     "context"
     "log"
     "fmt"
 
    // "github.com/ethereum/go-ethereum"
-    "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
+//	"github.com/MoonSHRD/GeldAutomaten/artifacts/Deposit.go"
+	dep	"github.com/MoonSHRD/GeldAutomaten/artifacts/Deposit"
+
 )
 
 var myenv map[string]string
@@ -33,7 +38,6 @@ func main(){
 
   //  client, err := ethclient.Dial(os.Getenv("GATEWAY"))	// for global env config
 	client, err := ethclient.Dial(myenv["GATEWAY"])			// load from local .env file
-//	client, err := ethclient.Dial("HTTP://127.0.0.1:7545")
     if err != nil {
         log.Fatalf("could not connect to Ethereum gateway: %v\n", err)
     }
@@ -41,5 +45,8 @@ func main(){
 
     accountAddress := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
     balance, _ := client.BalanceAt(ctx, accountAddress, nil)
-    fmt.Printf("Balance: %d\n",balance)
+	fmt.Printf("Balance: %d\n",balance)
+	
+	deposit, err := dep.NewDeposit(common.HexToAddress("0xdD5A73bfE8f907D6592197cF4Ba5945b1bFc608f"), client)
+
 }
