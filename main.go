@@ -4,7 +4,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 //	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-//	"github.com/ethereum/go-ethereum/crypto/sha3"
+
 //	"os"
     "context"
     "log"
@@ -12,7 +12,6 @@ import (
 
    // "github.com/ethereum/go-ethereum"
 	"github.com/joho/godotenv"
-//	"github.com/MoonSHRD/GeldAutomaten/artifacts/Deposit.go"
 	dep	"github.com/MoonSHRD/GeldAutomaten/artifacts/Deposit"
 
 )
@@ -48,5 +47,17 @@ func main(){
 	fmt.Printf("Balance: %d\n",balance)
 	
 	deposit, err := dep.NewDeposit(common.HexToAddress("0xdD5A73bfE8f907D6592197cF4Ba5945b1bFc608f"), client)
+	if err != nil {
+		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
+	}
+
+	owner,err := deposit.Owner(nil)
+	if err != nil {
+		log.Fatalf("Failed to owner of contract: %v", err)
+	}
+
+	owner_human := owner.Hex()
+
+	fmt.Println(owner_human)
 
 }
