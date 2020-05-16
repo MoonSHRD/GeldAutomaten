@@ -20,7 +20,7 @@ var (
 	_ = big.NewInt
 	_ = strings.NewReader
 	_ = ethereum.NotFound
-//	_ = abi.U256
+	_ = abi.U256
 	_ = bind.Bind
 	_ = common.Big1
 	_ = types.BloomLookup
@@ -28,7 +28,7 @@ var (
 )
 
 // DepositABI is the input ABI used to generate the binding from.
-const DepositABI = "[{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"}],\"name\":\"cashInRequestEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"}],\"name\":\"cashOutRequestEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"txid\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"err_msg\",\"type\":\"string\"}],\"name\":\"cashOutRevertEvent\",\"type\":\"event\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"InRequest\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"fiat_uuid\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"addresspayable\",\"name\":\"user_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"submited_by\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"executed\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"payload\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"OutRequest\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"addresspayable\",\"name\":\"wallet_from\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"executed\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"cashInRequest\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"}],\"name\":\"cashInSubmit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"}],\"name\":\"cashOutRequest\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"err_msg\",\"type\":\"string\"}],\"name\":\"cashOutRevert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"}],\"name\":\"cashOutSubmit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+const DepositABI = "[{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"}],\"name\":\"cashInRequestEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"txid\",\"type\":\"uint256\"}],\"name\":\"cashOutRequestEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"txid\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"err_msg\",\"type\":\"string\"}],\"name\":\"cashOutRevertEvent\",\"type\":\"event\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"InRequest\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"fiat_uuid\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"addresspayable\",\"name\":\"user_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"submited_by\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"executed\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"payload\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"OutRequest\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"addresspayable\",\"name\":\"wallet_from\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"executed\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"cashInRequest\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"string\",\"name\":\"uuid\",\"type\":\"string\"}],\"name\":\"cashInSubmit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"string\",\"name\":\"purce\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"paymentType\",\"type\":\"string\"}],\"name\":\"cashOutRequest\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"err_msg\",\"type\":\"string\"}],\"name\":\"cashOutRevert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tx_id\",\"type\":\"uint256\"}],\"name\":\"cashOutSubmit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"tx_id_out\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
 
 // Deposit is an auto generated Go binding around an Ethereum contract.
 type Deposit struct {
@@ -330,6 +330,32 @@ func (_Deposit *DepositSession) Owner() (common.Address, error) {
 // Solidity: function owner() view returns(address)
 func (_Deposit *DepositCallerSession) Owner() (common.Address, error) {
 	return _Deposit.Contract.Owner(&_Deposit.CallOpts)
+}
+
+// TxIdOut is a free data retrieval call binding the contract method 0x9e5e435b.
+//
+// Solidity: function tx_id_out() view returns(uint256 _value)
+func (_Deposit *DepositCaller) TxIdOut(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _Deposit.contract.Call(opts, out, "tx_id_out")
+	return *ret0, err
+}
+
+// TxIdOut is a free data retrieval call binding the contract method 0x9e5e435b.
+//
+// Solidity: function tx_id_out() view returns(uint256 _value)
+func (_Deposit *DepositSession) TxIdOut() (*big.Int, error) {
+	return _Deposit.Contract.TxIdOut(&_Deposit.CallOpts)
+}
+
+// TxIdOut is a free data retrieval call binding the contract method 0x9e5e435b.
+//
+// Solidity: function tx_id_out() view returns(uint256 _value)
+func (_Deposit *DepositCallerSession) TxIdOut() (*big.Int, error) {
+	return _Deposit.Contract.TxIdOut(&_Deposit.CallOpts)
 }
 
 // CashInRequest is a paid mutator transaction binding the contract method 0xe2b6bc85.
@@ -879,37 +905,48 @@ type DepositCashOutRequestEvent struct {
 	User   common.Address
 	Amount *big.Int
 	Purce  string
+	Txid   *big.Int
 	Raw    types.Log // Blockchain specific contextual infos
 }
 
-// FilterCashOutRequestEvent is a free log retrieval operation binding the contract event 0x51ab2593a5027d6d349f47998805aa648323b8f40cbefaabcfb7cc6277990a3a.
+// FilterCashOutRequestEvent is a free log retrieval operation binding the contract event 0x732c23a2264411acb0e6eae8204bbf440da85b5de65c26580de518ffce5ef0a0.
 //
-// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce)
-func (_Deposit *DepositFilterer) FilterCashOutRequestEvent(opts *bind.FilterOpts, user []common.Address) (*DepositCashOutRequestEventIterator, error) {
+// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce, uint256 indexed txid)
+func (_Deposit *DepositFilterer) FilterCashOutRequestEvent(opts *bind.FilterOpts, user []common.Address, txid []*big.Int) (*DepositCashOutRequestEventIterator, error) {
 
 	var userRule []interface{}
 	for _, userItem := range user {
 		userRule = append(userRule, userItem)
 	}
 
-	logs, sub, err := _Deposit.contract.FilterLogs(opts, "cashOutRequestEvent", userRule)
+	var txidRule []interface{}
+	for _, txidItem := range txid {
+		txidRule = append(txidRule, txidItem)
+	}
+
+	logs, sub, err := _Deposit.contract.FilterLogs(opts, "cashOutRequestEvent", userRule, txidRule)
 	if err != nil {
 		return nil, err
 	}
 	return &DepositCashOutRequestEventIterator{contract: _Deposit.contract, event: "cashOutRequestEvent", logs: logs, sub: sub}, nil
 }
 
-// WatchCashOutRequestEvent is a free log subscription operation binding the contract event 0x51ab2593a5027d6d349f47998805aa648323b8f40cbefaabcfb7cc6277990a3a.
+// WatchCashOutRequestEvent is a free log subscription operation binding the contract event 0x732c23a2264411acb0e6eae8204bbf440da85b5de65c26580de518ffce5ef0a0.
 //
-// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce)
-func (_Deposit *DepositFilterer) WatchCashOutRequestEvent(opts *bind.WatchOpts, sink chan<- *DepositCashOutRequestEvent, user []common.Address) (event.Subscription, error) {
+// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce, uint256 indexed txid)
+func (_Deposit *DepositFilterer) WatchCashOutRequestEvent(opts *bind.WatchOpts, sink chan<- *DepositCashOutRequestEvent, user []common.Address, txid []*big.Int) (event.Subscription, error) {
 
 	var userRule []interface{}
 	for _, userItem := range user {
 		userRule = append(userRule, userItem)
 	}
 
-	logs, sub, err := _Deposit.contract.WatchLogs(opts, "cashOutRequestEvent", userRule)
+	var txidRule []interface{}
+	for _, txidItem := range txid {
+		txidRule = append(txidRule, txidItem)
+	}
+
+	logs, sub, err := _Deposit.contract.WatchLogs(opts, "cashOutRequestEvent", userRule, txidRule)
 	if err != nil {
 		return nil, err
 	}
@@ -941,9 +978,9 @@ func (_Deposit *DepositFilterer) WatchCashOutRequestEvent(opts *bind.WatchOpts, 
 	}), nil
 }
 
-// ParseCashOutRequestEvent is a log parse operation binding the contract event 0x51ab2593a5027d6d349f47998805aa648323b8f40cbefaabcfb7cc6277990a3a.
+// ParseCashOutRequestEvent is a log parse operation binding the contract event 0x732c23a2264411acb0e6eae8204bbf440da85b5de65c26580de518ffce5ef0a0.
 //
-// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce)
+// Solidity: event cashOutRequestEvent(address indexed user, uint256 amount, string purce, uint256 indexed txid)
 func (_Deposit *DepositFilterer) ParseCashOutRequestEvent(log types.Log) (*DepositCashOutRequestEvent, error) {
 	event := new(DepositCashOutRequestEvent)
 	if err := _Deposit.contract.UnpackLog(event, "cashOutRequestEvent", log); err != nil {
