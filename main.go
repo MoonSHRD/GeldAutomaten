@@ -56,7 +56,7 @@ func main(){
 	fmt.Printf("Balance: %d\n",balance)
     
     // Setting up Deposit Contract
-	deposit, err := dep.NewDeposit(common.HexToAddress("0xdD5A73bfE8f907D6592197cF4Ba5945b1bFc608f"), client)
+	deposit, err := dep.NewDeposit(common.HexToAddress("0x7182c6F144A92A5921868ba38eA1A514DD33772e"), client)
 	if err != nil {
 		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
 	}
@@ -134,13 +134,14 @@ func main(){
 
     // check Cash Out Submit
    // _tx_out_id := 2
+   
     txSubmitRequest,err := session.CashOutSubmit(big.NewInt(2))
     if err != nil {
         log.Printf("could not send cash out submit to contract: %v\n", err)
         
     }
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
-
+    
 
 
 
