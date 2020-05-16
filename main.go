@@ -91,8 +91,9 @@ func main(){
 	TransactOpts: bind.TransactOpts{
 		From:     auth.From,
 		Signer:   auth.Signer,
-        GasLimit: 0,
-        GasPrice: nil,
+        GasLimit: uint64(5000000),
+        GasPrice: big.NewInt(1),
+        Context: context.Background(),
 	},
 }
 
@@ -128,6 +129,20 @@ func main(){
         
     }
     fmt.Printf("CashOut sent! Please wait for tx %s to be confirmed.\n", txOutRequest.Hash().Hex())
+
+
+
+    // check Cash Out Submit
+   // _tx_out_id := 2
+    txSubmitRequest,err := session.CashOutSubmit(big.NewInt(2))
+    if err != nil {
+        log.Printf("could not send cash out submit to contract: %v\n", err)
+        
+    }
+    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
+
+
+
 
 }
 
