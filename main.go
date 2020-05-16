@@ -108,12 +108,26 @@ func main(){
     // check Cash out request
     _purce := "address karty"
     _payment_method := "karta"
+    /*
     txOutRequest,err := session.CashOutRequest(_purce,_payment_method),big.NewInt(1)
+    */
+
+    txOutRequest,err := deposit.CashOutRequest(&bind.TransactOpts{
+        From: auth.From,
+        Nonce: nil,           // nil uses nonce of pending state
+        Signer: auth.Signer,
+        Value: big.NewInt(2),
+        GasPrice: nil,        // nil automatically suggests gas price
+        GasLimit: 0,          // 0 automatically estimates gas limit
+        Context: context.Background(),
+    },_purce,_payment_method,
+    )
+
     if err != nil {
         log.Printf("could not send cash out request to contract: %v\n", err)
         
     }
-    fmt.Printf("Answer sent! Please wait for tx %s to be confirmed.\n", txOutRequest.Hash().Hex())
+    fmt.Printf("CashOut sent! Please wait for tx %s to be confirmed.\n", txOutRequest.Hash().Hex())
 
 }
 
