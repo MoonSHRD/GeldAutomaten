@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/big"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -27,6 +28,8 @@ func loadEnv() {
         log.Printf("could not load env from %s: %v", envLoc, err)
     }
 }
+
+
 
 func main(){
     loadEnv()
@@ -102,7 +105,32 @@ func main(){
     fmt.Println(oh)
 
 
-
-
+    // check Cash out request
+    _purce := "address karty"
+    _payment_method := "karta"
+    txOutRequest,err := session.CashOutRequest(_purce,_payment_method),big.NewInt(1)
+    if err != nil {
+        log.Printf("could not send cash out request to contract: %v\n", err)
+        
+    }
+    fmt.Printf("Answer sent! Please wait for tx %s to be confirmed.\n", txOutRequest.Hash().Hex())
 
 }
+
+/*
+// cash out request (for test purposes)
+func OutRequest(session &dep.DepositSession, string _purce, string _paymentMethod) {
+    
+    txOutRequest, err := session.
+}
+*/
+
+
+/*
+// cash out request (for test purposes)
+func OutRequest(&dep.DepositSession session, string _purce, string _paymentMethod) {
+    
+    txOutRequest, err := session.
+}
+*/
+
