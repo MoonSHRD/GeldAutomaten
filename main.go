@@ -56,7 +56,7 @@ func main(){
 	fmt.Printf("Balance: %d\n",balance)
     
     // Setting up Deposit Contract
-	deposit, err := dep.NewDeposit(common.HexToAddress("0x7182c6F144A92A5921868ba38eA1A514DD33772e"), client)
+	deposit, err := dep.NewDeposit(common.HexToAddress("0xa50a779963CEb6FD23b94A8873D43ca4fC586270"), client)
 	if err != nil {
 		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
 	}
@@ -156,6 +156,75 @@ func main(){
         log.Printf("could not send cash IN submit to contract: %v\n", err)
     }
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txCashInRequest.Hash().Hex())
+
+
+    /*
+    Events
+    */
+
+    // Check retriving (past) events of CashOut request
+
+    var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
+    cash_out_filter := session.Contract.DepositFilterer
+   // cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
+    subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
+    if err != nil {
+        log.Printf("error due subscription to event")
+            log.Fatalln(err)
+    }
+    //cash_out_filter := session.Contract.WatchCashOutRequestEventAnonymouse(nil,)
+    
+   // fmt.Printf("subscription:")
+   // fmt.Printf(subscription)
+
+    event_result := <-ch
+
+    fmt.Println("/n")
+    fmt.Println("Destination for cash_out:", event_result.Purce)
+    fmt.Println("Amount for cash_out:", event_result.Amount)
+    subscription.Unsubscribe()
+
+    /*
+    for {
+        select {
+        case err := <-subscription.Err():
+            log.Printf("error due subscription to event")
+            log.Fatalln(err)
+        
+          
+    case event_log := <-ch :
+        fmt.Println("Destination: ")
+
+        }
+
+    }
+    */
+
+    /*
+    for {
+		select {
+		case err := <-subscription.Err():
+			log.Fatal(err)
+		case log := <-ch:
+			var greetEvent struct {
+				Name  string
+				Count *big.Int
+			}
+
+			err = greeterAbi.Unpack(&greetEvent, "_Greet", log.Data)
+
+			if err != nil {
+				fmt.Println("Failed to unpack:", err)
+			}
+
+			fmt.Println("Contract:", log.Address.Hex())
+			fmt.Println("Name:", greetEvent.Name)
+			fmt.Println("Count:", greetEvent.Count)
+		}
+	}
+    */
+
+
 
 }
 
