@@ -117,7 +117,7 @@ func main(){
         From: auth.From,
         Nonce: nil,           // nil uses nonce of pending state
         Signer: auth.Signer,
-        Value: big.NewInt(2),
+        Value: big.NewInt(2), // value in "Ether", we send with transaction
         GasPrice: nil,        // nil automatically suggests gas price
         GasLimit: 0,          // 0 automatically estimates gas limit
         Context: context.Background(),
@@ -134,16 +134,28 @@ func main(){
 
     // check Cash Out Submit
    // _tx_out_id := 2
-   
+   /*
     txSubmitRequest,err := session.CashOutSubmit(big.NewInt(2))
     if err != nil {
         log.Printf("could not send cash out submit to contract: %v\n", err)
         
     }
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
-    
+    */
 
 
+    // check cash in request
+
+    user_wallet := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
+    uuid_in := "1"
+    amount_in := big.NewInt(1)
+
+
+    txCashInRequest, err := session.CashInRequest(user_wallet,uuid_in,amount_in)
+    if err != nil {
+        log.Printf("could not send cash IN submit to contract: %v\n", err)
+    }
+    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txCashInRequest.Hash().Hex())
 
 }
 
