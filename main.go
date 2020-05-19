@@ -56,10 +56,17 @@ func main(){
 	fmt.Printf("Balance: %d\n",balance)
     
     // Setting up Deposit Contract
-	deposit, err := dep.NewDeposit(common.HexToAddress("0xa50a779963CEb6FD23b94A8873D43ca4fC586270"), client)
+	deposit, err := dep.NewDeposit(common.HexToAddress("0xf460e21B21d294f6832aF166862c38E6Be71f423"), client)
 	if err != nil {
 		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
-	}
+    }
+    
+
+
+  
+
+
+
 
     // Check view calls (owner address)
 	owner,err := deposit.Owner(nil)
@@ -94,8 +101,30 @@ func main(){
         GasLimit: uint64(5000000),
         GasPrice: big.NewInt(1),
         Context: context.Background(),
-	},
+    },
 }
+
+
+   /*
+    Events
+    */
+
+    // Check retriving (past) events of CashOut request
+
+    var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
+    cash_out_filter := session.Contract.DepositFilterer
+   // cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
+    subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(&bind.WatchOpts{
+            Start: nil,
+            Context: nil,
+    },ch)
+    if err != nil {
+        log.Printf("error due subscription to event")
+            log.Fatalln(err)
+    }
+
+    
+
 
 // check call for getting owner inside session
     ownr,err := session.Owner()
@@ -158,20 +187,7 @@ func main(){
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txCashInRequest.Hash().Hex())
 
 
-    /*
-    Events
-    */
-
-    // Check retriving (past) events of CashOut request
-
-    var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
-    cash_out_filter := session.Contract.DepositFilterer
-   // cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
-    subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
-    if err != nil {
-        log.Printf("error due subscription to event")
-            log.Fatalln(err)
-    }
+ 
     //cash_out_filter := session.Contract.WatchCashOutRequestEventAnonymouse(nil,)
     
    // fmt.Printf("subscription:")
