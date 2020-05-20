@@ -30,6 +30,43 @@ func loadEnv() {
 }
 
 
+// create cashInRequest (fiat -> blockchain)
+func cashInRequest(_session *dep.DepositSession, wallet common.Address, _uuid string, _amount *big.Int) {
+
+    
+    txCashInRequest, err := _session.CashInRequest(wallet,_uuid,_amount)
+    if err != nil {
+        log.Printf("could not send cash IN submit to contract: %v\n", err)
+    }
+    fmt.Printf("CashIN Submit sent! Please wait for tx %s to be confirmed.\n", txCashInRequest.Hash().Hex())
+
+}
+
+
+
+// submit, that we recive funds from user and maked cash_out of this funds to user card. 
+func cashOutSubmit(_session *dep.DepositSession, txid *big.Int) {
+
+    txSubmitRequest,err := _session.CashOutSubmit(txid)
+    if err != nil {
+        log.Printf("could not send cash out submit to contract: %v\n", err)
+        
+    }
+    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
+}
+
+
+func cashOutRevert(_session *dep.DepositSession, txid *big.Int, errmsg string) {
+
+    txRevertRequest,err := _session.CashOutRevert(txid, errmsg)
+    if err != nil {
+        log.Printf("could not send cash out submit to contract: %v\n", err)
+        
+    }
+    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txRevertRequest.Hash().Hex())
+
+
+}
 
 func main(){
     loadEnv()
@@ -41,6 +78,7 @@ func main(){
 
     pk := myenv["PK"] // load private key from env
 
+    // Connecting to network
   //  client, err := ethclient.Dial(os.Getenv("GATEWAY"))	// for global env config
 	client, err := ethclient.Dial(myenv["GATEWAY"])			// load from local .env file
     if err != nil {
@@ -62,21 +100,6 @@ func main(){
     }
     
 
-
-  
-
-
-
-
-    // Check view calls (owner address)
-	owner,err := deposit.Owner(nil)
-	if err != nil {
-		log.Fatalf("Failed to owner of contract: %v", err)
-	}
-
-	owner_human := owner.Hex()
-
-    fmt.Println(owner_human)
     
     // setting up private key in proper format
     privateKey, err := crypto.HexToECDSA(pk)
@@ -98,8 +121,8 @@ func main(){
 	TransactOpts: bind.TransactOpts{
 		From:     auth.From,
 		Signer:   auth.Signer,
-        GasLimit: uint64(5000000),
-        GasPrice: big.NewInt(1),
+        GasLimit: 0,
+        GasPrice: nil,
         Context: context.Background(),
     },
 }
@@ -109,13 +132,13 @@ func main(){
     Events
     */
 
-    // Check retriving (past) events of CashOut request
+    // Check retriving events of CashOut request
 
     var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
     cash_out_filter := session.Contract.DepositFilterer
-   // cash_out_filter.WatchCashOutRequestEventAnonymouse(nil,ch)
+   
     subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(&bind.WatchOpts{
-            Start: nil,
+            Start: nil, //last block
             Context: nil,
     },ch)
     if err != nil {
@@ -162,15 +185,11 @@ func main(){
 
 
     // check Cash Out Submit
-   // _tx_out_id := 2
    /*
-    txSubmitRequest,err := session.CashOutSubmit(big.NewInt(2))
-    if err != nil {
-        log.Printf("could not send cash out submit to contract: %v\n", err)
-        
-    }
-    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
+    _tx_out_id := 2
+    cashOutSubmit(session,_tx_out_id) 
     */
+    
 
 
     // check cash in request
@@ -180,18 +199,10 @@ func main(){
     amount_in := big.NewInt(1)
 
 
-    txCashInRequest, err := session.CashInRequest(user_wallet,uuid_in,amount_in)
-    if err != nil {
-        log.Printf("could not send cash IN submit to contract: %v\n", err)
-    }
-    fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txCashInRequest.Hash().Hex())
-
+    cashInRequest(session,user_wallet,uuid_in,amount_in)
 
  
-    //cash_out_filter := session.Contract.WatchCashOutRequestEventAnonymouse(nil,)
-    
-   // fmt.Printf("subscription:")
-   // fmt.Printf(subscription)
+   
 
     event_result := <-ch
 
@@ -199,65 +210,7 @@ func main(){
     fmt.Println("Destination for cash_out:", event_result.Purce)
     fmt.Println("Amount for cash_out:", event_result.Amount)
     subscription.Unsubscribe()
-
-    /*
-    for {
-        select {
-        case err := <-subscription.Err():
-            log.Printf("error due subscription to event")
-            log.Fatalln(err)
-        
-          
-    case event_log := <-ch :
-        fmt.Println("Destination: ")
-
-        }
-
-    }
-    */
-
-    /*
-    for {
-		select {
-		case err := <-subscription.Err():
-			log.Fatal(err)
-		case log := <-ch:
-			var greetEvent struct {
-				Name  string
-				Count *big.Int
-			}
-
-			err = greeterAbi.Unpack(&greetEvent, "_Greet", log.Data)
-
-			if err != nil {
-				fmt.Println("Failed to unpack:", err)
-			}
-
-			fmt.Println("Contract:", log.Address.Hex())
-			fmt.Println("Name:", greetEvent.Name)
-			fmt.Println("Count:", greetEvent.Count)
-		}
-	}
-    */
-
-
-
 }
 
-/*
-// cash out request (for test purposes)
-func OutRequest(session &dep.DepositSession, string _purce, string _paymentMethod) {
-    
-    txOutRequest, err := session.
-}
-*/
 
-
-/*
-// cash out request (for test purposes)
-func OutRequest(&dep.DepositSession session, string _purce, string _paymentMethod) {
-    
-    txOutRequest, err := session.
-}
-*/
 
