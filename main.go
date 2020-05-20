@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/ethereum/go-ethereum/event"
 	"math/big"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/common"
@@ -31,7 +32,7 @@ func loadEnv() {
 
 
 // create cashInRequest (fiat -> blockchain)
-func cashInRequest(_session *dep.DepositSession, wallet common.Address, _uuid string, _amount *big.Int) {
+func CashInRequest(_session *dep.DepositSession, wallet common.Address, _uuid string, _amount *big.Int) {
 
     
     txCashInRequest, err := _session.CashInRequest(wallet,_uuid,_amount)
@@ -45,7 +46,7 @@ func cashInRequest(_session *dep.DepositSession, wallet common.Address, _uuid st
 
 
 // submit, that we recive funds from user and maked cash_out of this funds to user card. 
-func cashOutSubmit(_session *dep.DepositSession, txid *big.Int) {
+func CashOutSubmit(_session *dep.DepositSession, txid *big.Int) {
 
     txSubmitRequest,err := _session.CashOutSubmit(txid)
     if err != nil {
@@ -55,8 +56,8 @@ func cashOutSubmit(_session *dep.DepositSession, txid *big.Int) {
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txSubmitRequest.Hash().Hex())
 }
 
-
-func cashOutRevert(_session *dep.DepositSession, txid *big.Int, errmsg string) {
+// revert - we have accepted cashOutSubmit from user, but can't proceed it transaction to his payment card
+func CashOutRevert(_session *dep.DepositSession, txid *big.Int, errmsg string) {
 
     txRevertRequest,err := _session.CashOutRevert(txid, errmsg)
     if err != nil {
@@ -64,6 +65,21 @@ func cashOutRevert(_session *dep.DepositSession, txid *big.Int, errmsg string) {
         
     }
     fmt.Printf("CashOut Submit sent! Please wait for tx %s to be confirmed.\n", txRevertRequest.Hash().Hex())
+}
+
+
+func SubcribeCashOutAnonymouse(_session *dep.DepositSession, _ch chan *dep.DepositCashOutRequestEventAnonymouse) (event.Subscription, error) {
+
+    cash_out_filter := _session.Contract.DepositFilterer
+    subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(&bind.WatchOpts{
+            Start: nil, //last block
+            Context: nil,
+    },_ch)
+    if err != nil {
+        log.Printf("error due subscription to event")
+            log.Fatalln(err)
+    }
+    return subscription, err
 
 
 }
@@ -72,10 +88,6 @@ func main(){
     loadEnv()
 
     ctx := context.Background()
-
-//	gw := myenv["GATEWAY"]
-//	fmt.Println(gw)
-
     pk := myenv["PK"] // load private key from env
 
     // Connecting to network
@@ -93,6 +105,7 @@ func main(){
     balance, _ := client.BalanceAt(ctx, accountAddress, nil)
 	fmt.Printf("Balance: %d\n",balance)
     
+
     // Setting up Deposit Contract
 	deposit, err := dep.NewDeposit(common.HexToAddress("0xf460e21B21d294f6832aF166862c38E6Be71f423"), client)
 	if err != nil {
@@ -135,6 +148,8 @@ func main(){
     // Check retriving events of CashOut request
 
     var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
+
+    /*
     cash_out_filter := session.Contract.DepositFilterer
    
     subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(&bind.WatchOpts{
@@ -145,6 +160,10 @@ func main(){
         log.Printf("error due subscription to event")
             log.Fatalln(err)
     }
+    */
+
+    subscription, err := SubcribeCashOutAnonymouse(session,ch)
+
 
     
 
@@ -187,7 +206,7 @@ func main(){
     // check Cash Out Submit
    /*
     _tx_out_id := 2
-    cashOutSubmit(session,_tx_out_id) 
+    CashOutSubmit(session,_tx_out_id) 
     */
     
 
@@ -199,7 +218,7 @@ func main(){
     amount_in := big.NewInt(1)
 
 
-    cashInRequest(session,user_wallet,uuid_in,amount_in)
+    CashInRequest(session,user_wallet,uuid_in,amount_in)
 
  
    
