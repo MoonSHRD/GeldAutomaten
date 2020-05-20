@@ -99,10 +99,19 @@ func main(){
     defer client.Close()
 
 
+ // setting up private key in proper format
+    privateKey, err := crypto.HexToECDSA(pk)
+        if err != nil {
+            log.Fatal(err)
+        }
+    
+// Creating an auth transactor
+    auth := bind.NewKeyedTransactor(privateKey)
+
     // check calls 
     // check balance
     accountAddress := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
-    balance, _ := client.BalanceAt(ctx, accountAddress, nil)
+    balance, _ := client.BalanceAt(ctx, accountAddress, nil)    //our balance
 	fmt.Printf("Balance: %d\n",balance)
     
 
@@ -111,17 +120,6 @@ func main(){
 	if err != nil {
 		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
     }
-    
-
-    
-    // setting up private key in proper format
-    privateKey, err := crypto.HexToECDSA(pk)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    // Creating an auth transactor
-    auth := bind.NewKeyedTransactor(privateKey)
     
     // Wrap the Deposit contract instance into a session
       session := &dep.DepositSession{
@@ -134,8 +132,8 @@ func main(){
 	TransactOpts: bind.TransactOpts{
 		From:     auth.From,
 		Signer:   auth.Signer,
-        GasLimit: 0,
-        GasPrice: nil,
+        GasLimit: 0,                    // 0 automatically estimates gas limit
+        GasPrice: nil,                  // nil automatically suggests gas price
         Context: context.Background(),
     },
 }
@@ -148,41 +146,22 @@ func main(){
     // Check retriving events of CashOut request
 
     var ch = make(chan *dep.DepositCashOutRequestEventAnonymouse)
-
-    /*
-    cash_out_filter := session.Contract.DepositFilterer
-   
-    subscription,err := cash_out_filter.WatchCashOutRequestEventAnonymouse(&bind.WatchOpts{
-            Start: nil, //last block
-            Context: nil,
-    },ch)
-    if err != nil {
-        log.Printf("error due subscription to event")
-            log.Fatalln(err)
-    }
-    */
-
     subscription, err := SubcribeCashOutAnonymouse(session,ch)
 
 
-    
-
-
 // check call for getting owner inside session
+/*
     ownr,err := session.Owner()
     if err != nil {
     log.Fatalf("Failed to owner of contract: %v", err)
     }
     oh:= ownr.Hex()
     fmt.Println(oh)
-
+*/
 
     // check Cash out request
     _purce := "address karty"
     _payment_method := "karta"
-    /*
-    txOutRequest,err := session.CashOutRequest(_purce,_payment_method),big.NewInt(1)
-    */
 
     txOutRequest,err := deposit.CashOutRequest(&bind.TransactOpts{
         From: auth.From,
@@ -216,15 +195,12 @@ func main(){
     user_wallet := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
     uuid_in := "1"
     amount_in := big.NewInt(1)
-
-
     CashInRequest(session,user_wallet,uuid_in,amount_in)
 
  
    
-
+    // Print result of events, we got during subscription
     event_result := <-ch
-
     fmt.Println("/n")
     fmt.Println("Destination for cash_out:", event_result.Purce)
     fmt.Println("Amount for cash_out:", event_result.Amount)
