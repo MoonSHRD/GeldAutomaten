@@ -191,12 +191,12 @@ func main(){
 
 
     // check cash in request
-
+    /*
     user_wallet := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
-    uuid_in := "1"
+    uuid_in := "3"
     amount_in := big.NewInt(1)
     CashInRequest(session,user_wallet,uuid_in,amount_in)
-
+    */
  
    
     // Print result of events, we got during subscription
