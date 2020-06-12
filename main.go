@@ -110,13 +110,13 @@ func main(){
 
     // check calls 
     // check balance
-    accountAddress := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
+    accountAddress := common.HexToAddress("0x3214Db97Bf87a057C039a39594E91CD31f5d2a2C")
     balance, _ := client.BalanceAt(ctx, accountAddress, nil)    //our balance
 	fmt.Printf("Balance: %d\n",balance)
     
 
     // Setting up Deposit Contract
-	deposit, err := dep.NewDeposit(common.HexToAddress("0xf460e21B21d294f6832aF166862c38E6Be71f423"), client)
+	deposit, err := dep.NewDeposit(common.HexToAddress("0x56D17255fFFab24677ba0e6760d9F6ac86313493"), client)
 	if err != nil {
 		log.Fatalf("Failed to instantiate a Deposit contract: %v", err)
     }
@@ -191,12 +191,12 @@ func main(){
 
 
     // check cash in request
-
+    /*
     user_wallet := common.HexToAddress("0x892eE0398C9d8C86BCA3ffa49c33b68A7b2F38d3")
-    uuid_in := "1"
+    uuid_in := "3"
     amount_in := big.NewInt(1)
     CashInRequest(session,user_wallet,uuid_in,amount_in)
-
+    */
  
    
     // Print result of events, we got during subscription
