@@ -1,4 +1,4 @@
-package main
+package ga
 
 import (
 	"github.com/ethereum/go-ethereum/event"
