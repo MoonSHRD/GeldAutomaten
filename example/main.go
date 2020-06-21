@@ -13,6 +13,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	dep "github.com/MoonSHRD/GeldAutomaten/artifacts/Deposit"
 	"github.com/joho/godotenv"
@@ -28,6 +29,12 @@ func loadEnv() {
 		log.Printf("could not load env from %s: %v", envLoc, err)
 	}
 }
+
+/*
+func cashOutRequestTest() {
+	
+}
+*/
 
 func main() {
 	loadEnv()
@@ -122,6 +129,27 @@ func main() {
 	}
 	fmt.Printf("CashOut sent! Please wait for tx %s to be confirmed.\n", txOutRequest.Hash().Hex())
 
+	time.Sleep(5 * time.Second);
+
+	purce = "12345678"
+	txOutRequest2, err := deposit.CashOutRequest(
+		&bind.TransactOpts{
+			From:     auth.From,
+			Nonce:    nil, // nil uses nonce of pending state
+			Signer:   auth.Signer,
+			Value:    big.NewInt(2), // value in "Ether", we send with transaction
+			GasPrice: nil,           // nil automatically suggests gas price
+			GasLimit: 0,             // 0 automatically estimates gas limit
+			Context:  context.Background(),
+		}, purce, paymentMethod,
+	)
+
+	if err != nil {
+		log.Printf("could not send cash out request to contract: %v\n", err)
+
+	}
+	fmt.Printf("CashOut sent! Please wait for tx %s to be confirmed.\n", txOutRequest2.Hash().Hex())
+
 	// check Cash Out Submit
 	/*
 	   _tx_out_id := 2
@@ -137,9 +165,33 @@ func main() {
 	*/
 
 	// Print result of events, we got during subscription
+
+ EventLoop:
+	for {
+		select {
+		case <-ctx.Done():
+			{
+			subscription.Unsubscribe();
+			break EventLoop
+			}
+	case eventResult:= <-ch:
+		{
+			fmt.Println("/n")
+			fmt.Println("Destination for cash_out:", eventResult.Purce)
+			fmt.Println("Amount for cash_out:", eventResult.Amount)
+
+		}
+
+		}
+}
+
+
+
+	/*
 	eventResult := <-ch
 	fmt.Println("/n")
 	fmt.Println("Destination for cash_out:", eventResult.Purce)
 	fmt.Println("Amount for cash_out:", eventResult.Amount)
-	subscription.Unsubscribe()
+	//	subscription.Unsubscribe()
+	*/
 }
